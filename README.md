@@ -19,11 +19,11 @@
       the first badge separated with a single space.
       [![GoDoc](https://godoc.org/github.com/giantswarm/REPOSITORY_NAME?status.svg)](http://godoc.org/github.com/giantswarm/REPOSITORY_NAME)
 
+  [![CircleCI](https://circleci.com/gh/giantswarm/template.svg?style=shield&circle-token=cbabd7d13186f190fca813db4f0c732b026f5f6c)](https://circleci.com/gh/giantswarm/template)
+
 -->
-[![CircleCI](https://circleci.com/gh/giantswarm/template.svg?style=shield&circle-token=cbabd7d13186f190fca813db4f0c732b026f5f6c)](https://circleci.com/gh/giantswarm/template)
 
 # pytest-kube
-
 
 
 ```bash
@@ -35,7 +35,6 @@ docker run -ti \
   -v $PWD:/pytest \
   local/pytest-kube
 ```
-
 
 
 ## Hints for development
