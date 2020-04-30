@@ -22,12 +22,30 @@
 -->
 [![CircleCI](https://circleci.com/gh/giantswarm/template.svg?style=shield&circle-token=cbabd7d13186f190fca813db4f0c732b026f5f6c)](https://circleci.com/gh/giantswarm/template)
 
-# REPOSITORY_NAME
+# pytest-kube
 
-This is a template repository containing some basic files every repository
-needs.
 
-To use it just hit `Use this template` button or [this
-link][generate].
 
-[generate]: https://github.com/giantswarm/template/generate
+```bash
+docker build -t local/pytest-kube .
+
+docker run -ti \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  --network host \
+  -v $PWD:/pytest \
+  local/pytest-kube
+```
+
+
+
+## Hints for development
+
+```bash
+# add a python package to pyproject.toml
+docker run -ti -v $PWD:$PWD -w $PWD -- local/pytest-kube \
+  poetry add --dev git+https://github.com/hjacobs/pytest-kind@master
+
+# update package versions in pyproject.toml
+docker run -ti -v $PWD:$PWD -w $PWD -- local/pytest-kube \
+  poetry update
+```
