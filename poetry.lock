@@ -140,19 +140,15 @@ testing = ["argcomplete", "hypothesis (>=3.56)", "mock", "nose", "requests", "xm
 
 [[package]]
 category = "dev"
-description = ""
+description = "Kubernetes test support with KIND for pytest"
 name = "pytest-kind"
 optional = false
-python-versions = "^3.7"
-version = "20.01.0"
+python-versions = ">=3.7,<4.0"
+version = "20.5.2"
 
 [package.dependencies]
 pykube-ng = ">=0.30.0"
 
-[package.source]
-reference = "c3b6d58efc09b179f8aa706899d3846ebbc2b360"
-type = "git"
-url = "https://github.com/hjacobs/pytest-kind"
 [[package]]
 category = "dev"
 description = "YAML parser and emitter for Python"
@@ -209,7 +205,7 @@ python-versions = "*"
 version = "0.1.9"
 
 [metadata]
-content-hash = "647cb001b62a7e56124f766d159a0423d9ae80f9c8fa78efdce58e7d5032da14"
+content-hash = "9879cb13a7285da8ea533cc46ef27d95ce088d5f4902e238dc5e54f3743b3aa8"
 python-versions = "^3.8"
 
 [metadata.files]
@@ -265,7 +261,10 @@ pytest = [
     {file = "pytest-5.4.1-py3-none-any.whl", hash = "sha256:0e5b30f5cb04e887b91b1ee519fa3d89049595f428c1db76e73bd7f17b09b172"},
     {file = "pytest-5.4.1.tar.gz", hash = "sha256:84dde37075b8805f3d1f392cc47e38a0e59518fb46a431cfdaf7cf1ce805f970"},
 ]
-pytest-kind = []
+pytest-kind = [
+    {file = "pytest-kind-20.5.2.tar.gz", hash = "sha256:6f979143b3fa14df033988e75e79d14581dbe52e6d456faeccc45dd9022c375b"},
+    {file = "pytest_kind-20.5.2-py3-none-any.whl", hash = "sha256:4b0223b04f60e6e1a6875ee679a2ea5f6f49f908bcbc33b4f1fb573f0ab52ab3"},
+]
 pyyaml = [
     {file = "PyYAML-5.3.1-cp27-cp27m-win32.whl", hash = "sha256:74809a57b329d6cc0fdccee6318f44b9b8649961fa73144a98735b0aaf029f1f"},
     {file = "PyYAML-5.3.1-cp27-cp27m-win_amd64.whl", hash = "sha256:240097ff019d7c70a4922b6869d8a86407758333f02203e0fc6ff79c5dcede76"},
