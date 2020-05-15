@@ -23,6 +23,8 @@
 
 -->
 
+[![CircleCI](https://circleci.com/gh/giantswarm/pytest-kube.svg?style=shield)](https://circleci.com/gh/giantswarm/pytest-kube) [![Docker Repository on Quay](https://quay.io/repository/giantswarm/pytest-kube/status "Docker Repository on Quay")](https://quay.io/repository/giantswarm/pytest-kube)
+
 # pytest-kube
 
 
