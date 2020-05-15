@@ -1,0 +1,17 @@
+version: 2.1
+
+orbs:
+  architect: giantswarm/architect@0.8.14
+
+workflows:
+  build:
+    jobs:
+      - architect/push-to-docker:
+          context: architect
+          name: push-to-quay
+          image: "quay.io/giantswarm/pytest-kube"
+          username_envar: "QUAY_USERNAME"
+          password_envar: "QUAY_PASSWORD"
+          filters:
+            tags:
+              only: /^.*/
