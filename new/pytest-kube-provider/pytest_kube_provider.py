@@ -1,9 +1,15 @@
-# -*- coding: utf-8 -*-
+import os.path
+import sys
+import logging
+from pathlib import Path
+from typing import Callable, List, Iterable
 
 import pytest
-import pykube
-from pathlib import Path
-import os.path
+from pykube import HTTPClient
+
+from kube_provider.clusters import ExistingCluster, Cluster
+
+logger = logging.getLogger(__name__)
 
 
 def pytest_addoption(parser):
@@ -56,8 +62,66 @@ def values_file_path(pytestconfig) -> str:
 def kube_config(pytestconfig) -> str:
     return pytestconfig.getoption("kube_config")
 
+
 @pytest.fixture(scope="module")
 def cluster_type(pytestconfig) -> str:
     return pytestconfig.getoption("cluster_type")
 
 
+ConfigFactoryFunction = Callable[[], Cluster]
+
+
+@pytest.fixture(scope="module")
+def existing_cluster_factory(kube_config: str) -> ConfigFactoryFunction:
+    def _fun() -> HTTPClient:
+        return ExistingCluster(kube_config)
+    return _fun
+
+
+@pytest.fixture(scope="module")
+def kind_cluster_factory() -> ConfigFactoryFunction:
+    def _fun() -> HTTPClient:
+        # FIXME: implement
+        return Cluster()
+    return _fun
+
+
+@pytest.fixture(scope="module")
+def giantswarm_cluster_factory() -> ConfigFactoryFunction:
+    def _fun() -> HTTPClient:
+        # FIXME: implement
+        return Cluster()
+    return _fun
+
+
+@pytest.fixture(scope="module")
+def kube_cluster(cluster_type: str,
+                 existing_cluster_factory: ConfigFactoryFunction,
+                 kind_cluster_factory: ConfigFactoryFunction,
+                 giantswarm_cluster_factory: ConfigFactoryFunction) -> Iterable[Cluster]:
+    cluster: Cluster
+    created_clusters: List[Cluster] = []
+    if cluster_type == "existing":
+        cluster = existing_cluster_factory()
+    elif cluster_type == "kind":
+        cluster = kind_cluster_factory()
+    elif cluster_type == "giantswarm":
+        cluster = giantswarm_cluster_factory()
+    else:
+        raise ValueError("Unsupported cluster type '{}'.".format(cluster_type))
+
+    logger.info("Creating new cluster of type '{}'.".format(cluster_type))
+    cluster.create()
+    logger.info("Cluster created")
+    created_clusters.append(cluster)
+    yield cluster
+
+    for c in created_clusters:
+        try:
+            logger.info("Destroying cluster")
+            c.destroy()
+        except:
+            exc = sys.exc_info()
+            logger.error("Error of type {} when destroying cluster. Value: {}\nStacktrace:\n{}".format(
+                exc[0], exc[1], exc[2]
+            ))

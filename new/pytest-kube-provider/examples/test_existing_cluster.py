@@ -1,11 +1,5 @@
-#from kube_provider.clusters.kube_client import kube_cluster, existing_cluster_factory, kind_cluster_factory, giantswarm_cluster_factory
-from kube_provider.clusters import *
-from kube_provider.clusters.kube_client import kube_cluster
-from kube_provider.clusters.clusters import Cluster
-import pytest
-import pytest_kube_provider
+from pytest_kube_provider import Cluster
 import logging
-from pykube import HTTPClient
 
 logger = logging.getLogger(__name__)
 
