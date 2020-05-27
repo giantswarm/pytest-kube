@@ -12,6 +12,8 @@ classifiers=[
     'Topic :: Software Development :: Testing',
     'Programming Language :: Python',
     'Programming Language :: Python :: 3',
+    'Programming Language :: Python :: 3.6',
+    'Programming Language :: Python :: 3.7',
     'Programming Language :: Python :: 3.8',
     'Programming Language :: Python :: Implementation :: CPython',
     'Operating System :: OS Independent',
@@ -24,12 +26,14 @@ classifiers=[
 "kube-provider" = "pytest_kube_provider"
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.6"
 pytest = "^5.4.2"
 pykube-ng = "^20.5.0"
 
 [tool.poetry.dev-dependencies]
 autopep8 = "^1.5.2"
+tox = "^3.15.1"
+tox-pyenv = "^1.1.0"
 
 [build-system]
 requires = ["poetry>=0.12"]
