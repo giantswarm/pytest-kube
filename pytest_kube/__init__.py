@@ -1,6 +1,9 @@
-from .cluster import Cluster
-from .existing_cluster import ExistingCluster
-from .giantswarm_cluster_gsctl import GiantswarmClusterGsctl
-from .kind_cluster import KindCluster
+from .kubernetes_cluster import KubernetesCluster
+from .utils import forward_requests, wait_for_rollout, app_template
 
-__all__ = ["Cluster", "KindCluster", "GiantswarmClusterGsctl", "ExistingCluster"]
+__all__ = [
+    "KubernetesCluster", 
+    "forward_requests", 
+    "wait_for_rollout", 
+    "app_template"
+]
