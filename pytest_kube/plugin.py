@@ -3,13 +3,14 @@ import pytest
 from .kubernetes_cluster import KubernetesCluster
 import random
 import string
+import os
 
 
 @pytest.fixture(scope="session")
 def kubernetes_cluster(request):
     """Provide a Kubernetes cluster as test fixture"""
 
-    kubeconfig = request.config.getoption("--kubeconfig")
+    kubeconfig = request.config.getoption("--kube-config")
     cluster = KubernetesCluster(kubeconfig)
 
     kubeconfig = request.config.getoption("--kubeconfig-management")
@@ -44,12 +45,10 @@ def random_namespace(request, kubernetes_cluster):
 
 def pytest_addoption(parser):
     parser.addoption(
-        "--kubeconfig",
-        default=None,
-        help=(
-            "If provided, use the specified kubeconfig "
-            "instead of the default one"
-        ),
+        "--kube-config",
+        action="store",
+        default=os.path.join(str(Path.home()), ".kube", "config"),
+        help="The path to 'kube.config' file. Used when '--cluster-type existing' is used as well.",
     )
 
     parser.addoption(
@@ -66,4 +65,16 @@ def pytest_addoption(parser):
         default=None,
         action="store_true",
         help="Keep the pytest namespace (do not delete after test run)",
+    )
+
+    # dummy options to satisfy abs
+    parser.addoption("--cluster-type", action="store", help="Pass information about cluster type being used for tests.")
+    parser.addoption("--values-file", action="store", help="Path to the values file used for testing the chart.")
+    parser.addoption("--chart-path", action="store", help="The path to a helm chart under test.")
+    parser.addoption("--chart-version", action="store", help="Override chart version for the chart under test.")
+    parser.addoption(
+        "--chart-extra-info",
+        action="store",
+        default="",
+        help="Pass any additional info about the chart in the 'key1=val1,key2=val2' format",
     )
