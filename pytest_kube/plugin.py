@@ -22,7 +22,7 @@ def kubernetes_cluster(request):
     return cluster
 
 
-@pytest.fixture(scope="class")
+@pytest.fixture(scope="module")
 # @pytest.fixture(scope="function")
 def random_namespace(request, kubernetes_cluster):
     kubectl = kubernetes_cluster.kubectl
@@ -34,6 +34,10 @@ def random_namespace(request, kubernetes_cluster):
     if not request.config.getoption("keep_namespace"):
         kubectl(f"delete namespace {name}", output=None)
 
+@pytest.fixture(scope="module")
+def chart_version(request) -> str:
+    """Return a value that needs to be used as chart version override (from command line argument)."""
+    return request.config.getoption("chart_version")
 
 # FIXME provide factory to choose namespace with possible random postfix
 # https://docs.pytest.org/en/stable/fixture.html#factories-as-fixtures
@@ -66,12 +70,12 @@ def pytest_addoption(parser):
         action="store_true",
         help="Keep the pytest namespace (do not delete after test run)",
     )
+    parser.addoption("--chart-version", action="store", help="Override chart version for the chart under test.")
 
     # dummy options to satisfy abs
     parser.addoption("--cluster-type", action="store", help="Pass information about cluster type being used for tests.")
     parser.addoption("--values-file", action="store", help="Path to the values file used for testing the chart.")
     parser.addoption("--chart-path", action="store", help="The path to a helm chart under test.")
-    parser.addoption("--chart-version", action="store", help="Override chart version for the chart under test.")
     parser.addoption(
         "--chart-extra-info",
         action="store",
